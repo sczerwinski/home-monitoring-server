@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.jpa")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
+    jacoco
 }
 
 group = "it.czerwinski"
@@ -41,10 +42,21 @@ tasks {
     withType<Test> {
         useJUnitPlatform()
     }
+    jacocoTestReport {
+        additionalSourceDirs(file("jacocoSrc"))
+        reports {
+            xml.isEnabled = true
+            html.isEnabled = true
+        }
+    }
 }
 
 allOpen {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.Embeddable")
     annotation("javax.persistence.MappedSuperclass")
+}
+
+jacoco {
+    toolVersion = "0.8.5"
 }
