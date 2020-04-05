@@ -12,5 +12,7 @@ class StringToSensorTypeConverter : Converter<String, SensorType> {
      * Converts [String] to [SensorType] ignoring character case.
      */
     override fun convert(source: String): SensorType? =
-        SensorType.values().firstOrNull { it.name.equals(source, ignoreCase = true) }
+        SensorType.values()
+            .find { it.name.equals(source, ignoreCase = true) }
+            ?: throw IllegalArgumentException("Unknown sensor type: $source")
 }

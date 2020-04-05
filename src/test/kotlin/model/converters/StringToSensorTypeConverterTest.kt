@@ -1,8 +1,7 @@
 package it.czerwinski.home.monitoring.model.converters
 
 import it.czerwinski.home.monitoring.model.SensorType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EmptySource
 import org.junit.jupiter.params.provider.ValueSource
@@ -33,16 +32,16 @@ class StringToSensorTypeConverterTest {
         assertEquals(SensorType.HUMIDITY, result)
     }
 
-    @ParameterizedTest(name = "When \"{0}\", then return null")
+    @ParameterizedTest(name = "When \"{0}\", then throw IllegalArgumentException")
     @EmptySource
     @ValueSource(strings = ["unknown"])
-    fun `When unknown sensor type, then return null`(
+    fun `When unknown sensor type, then throw IllegalArgumentException`(
         string: String
     ) {
         val converter = StringToSensorTypeConverter()
 
-        val result = converter.convert(string)
-
-        assertNull(result)
+        assertThrows(IllegalArgumentException::class.java) {
+            converter.convert(string)
+        }
     }
 }
