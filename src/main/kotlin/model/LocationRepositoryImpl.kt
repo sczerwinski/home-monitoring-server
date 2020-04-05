@@ -10,4 +10,8 @@ class LocationRepositoryImpl(
 
     override fun findAll(): List<Location> =
         locationDao.findAll().toList()
+
+    override fun findByNameOrCreate(name: String): Location =
+        locationDao.findByName(name)
+            .orElseGet { locationDao.save(Location(name = name)) }
 }
