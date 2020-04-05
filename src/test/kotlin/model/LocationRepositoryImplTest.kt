@@ -8,6 +8,8 @@ import it.czerwinski.home.monitoring.db.LocationDao
 import it.czerwinski.home.monitoring.matchers.LocationMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsArray
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -39,6 +41,31 @@ class LocationRepositoryImplTest {
                 LocationMatchers.isEqual(locationName = "Living room")
             )
         )
+    }
+
+    @Test
+    fun `Given location exists, when findByName, then return existing location`() {
+        val location = Location(id = 1L, name = "Bedroom")
+        every { locationDao.findByName(name = "Bedroom") } returns Optional.of(location)
+
+        val result = locationRepository.findByName("Bedroom")
+
+        assertNotNull(result)
+        assertThat(result, LocationMatchers.isEqual(location))
+
+        verify { locationDao.save<Location>(any()) wasNot Called }
+    }
+
+    @Test
+    fun `Given location doesn't exist, when findByName, then return null`() {
+        val location = Location(id = 1L, name = "Bedroom")
+        every { locationDao.findByName(name = "Bedroom") } returns Optional.empty()
+
+        val result = locationRepository.findByName("Bedroom")
+
+        assertNull(result)
+
+        verify { locationDao.save<Location>(any()) wasNot Called }
     }
 
     @Test

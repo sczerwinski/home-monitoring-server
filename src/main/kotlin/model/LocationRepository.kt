@@ -12,6 +12,11 @@ interface LocationRepository {
 
     /**
      * Retrieves a [Location] by [name].
+     */
+    fun findByName(name: String): Location?
+
+    /**
+     * Retrieves a [Location] by [name].
      *
      * If no location with a given [name] was found, a new [Location] is created.
      */
