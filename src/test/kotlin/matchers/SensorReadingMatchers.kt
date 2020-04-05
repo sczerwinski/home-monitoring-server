@@ -18,7 +18,7 @@ object SensorReadingMatchers {
      */
     fun isEqual(
         sensorReading: SensorReading
-    ): Matcher<SensorReading> =
+    ): Matcher<SensorReading?> =
         isEqual(
             locationMatcher = LocationMatchers.isEqual(sensorReading.location),
             type = sensorReading.type,
@@ -30,11 +30,11 @@ object SensorReadingMatchers {
      * Creates a new matcher evaluating whether two sensor readings are equal.
      */
     fun isEqual(
-        locationMatcher: Matcher<Location>,
+        locationMatcher: Matcher<Location?>,
         type: SensorType,
         dateTime: LocalDateTime,
         value: Double
-    ): Matcher<SensorReading> =
+    ): Matcher<SensorReading?> =
         IsEqual(
             locationMatcher = locationMatcher,
             expectedType = type,
@@ -43,11 +43,11 @@ object SensorReadingMatchers {
         )
 
     private class IsEqual(
-        private val locationMatcher: Matcher<Location>,
+        private val locationMatcher: Matcher<Location?>,
         private val expectedType: SensorType,
         private val expectedDateTime: LocalDateTime,
         private val expectedValue: Double
-    ) : BaseMatcher<SensorReading>() {
+    ) : BaseMatcher<SensorReading?>() {
 
         override fun describeTo(description: Description?) {
             description

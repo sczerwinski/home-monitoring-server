@@ -15,7 +15,7 @@ object LocationMatchers {
      */
     fun isEqual(
         location: Location
-    ): Matcher<Location> =
+    ): Matcher<Location?> =
         isEqual(
             locationName = location.name
         )
@@ -25,14 +25,14 @@ object LocationMatchers {
      */
     fun isEqual(
         locationName: String
-    ): Matcher<Location> =
-        LocationMatchers.IsEqual(
+    ): Matcher<Location?> =
+        IsEqual(
             expectedName = locationName
         )
 
     private class IsEqual(
         private val expectedName: String
-    ) : BaseMatcher<Location>() {
+    ) : BaseMatcher<Location?>() {
 
         override fun describeTo(description: Description?) {
             description
