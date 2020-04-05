@@ -3,6 +3,8 @@ package it.czerwinski.home.monitoring.controllers
 import it.czerwinski.home.monitoring.model.Temperature
 import it.czerwinski.home.monitoring.db.TemperatureRepository
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.Clock
 import java.time.LocalDateTime
@@ -13,22 +15,34 @@ class TemperatureController(
     private val clock: Clock
 ) {
 
-    @GetMapping(path = ["/temperature"])
-    fun getCurrentTemperature() = repository.findFirst1ByOrderByTimeDesc()
+    @GetMapping(
+        name = "Get latest temperature",
+        path = ["/temperature"]
+    )
+    fun getLatestTemperature(): Temperature? =
+        repository.findFirst1ByOrderByTimeDesc().orElse(null)
 
-    @GetMapping(path = ["/temperature/start/{start}/end/{end}"])
-    fun getCurrentTemperature(
+    @GetMapping(
+        name = "Get temperature for time period",
+        path = ["/temperature/start/{start}/end/{end}"]
+    )
+    fun getTemperatureBetween(
         @PathVariable(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) start: LocalDateTime,
         @PathVariable(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) end: LocalDateTime
-    ) = repository.findByTimeBetween(start, end)
+    ): List<Temperature> =
+        repository.findByTimeBetween(start, end).toList()
 
-    @PostMapping(path = ["/temperature"])
+    @PostMapping(
+        name = "Post current temperature",
+        path = ["/temperature"]
+    )
     fun putTemperature(
         @RequestBody value: Double
-    ) = repository.save(
-        Temperature(
-            time = LocalDateTime.now(clock),
-            temperature = value
-        )
-    )
+    ): ResponseEntity<Temperature> =
+        repository.save(
+            Temperature(
+                time = LocalDateTime.now(clock),
+                temperature = value
+            )
+        ).let { ResponseEntity(it, HttpStatus.CREATED) }
 }

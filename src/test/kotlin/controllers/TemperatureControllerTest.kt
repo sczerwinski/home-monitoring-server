@@ -19,7 +19,7 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.*
 
-@WebMvcTest
+@WebMvcTest(controllers = [TemperatureController::class])
 class TemperatureControllerTest @Autowired constructor(val mockMvc: MockMvc) {
 
     @MockkBean
@@ -94,7 +94,7 @@ class TemperatureControllerTest @Autowired constructor(val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("12.3")
         )
-            .andExpect(status().isOk)
+            .andExpect(status().isCreated)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
         verify {
