@@ -5,8 +5,7 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.verify
 import it.czerwinski.home.monitoring.db.SensorReadingDao
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -45,8 +44,25 @@ class SensorReadingRepositoryImplTest {
             type = SensorType.TEMPERATURE
         )
 
-        assertTrue(result.isPresent)
-        assertEquals(reading, result.get())
+        assertEquals(reading, result)
+    }
+
+    @Test
+    fun `Given no readings, when findLatestReading, then return latest sensor reading`() {
+        val location = Location(id = 1L, name = "Kitchen")
+        every {
+            sensorReadingDao.findFirst1ByLocationAndTypeOrderByDateTimeDesc(
+                location = location,
+                type = SensorType.TEMPERATURE
+            )
+        } returns Optional.empty()
+
+        val result = sensorReadingRepository.findLatestReading(
+            location = location,
+            type = SensorType.TEMPERATURE
+        )
+
+        assertNull(result)
     }
 
     @Test

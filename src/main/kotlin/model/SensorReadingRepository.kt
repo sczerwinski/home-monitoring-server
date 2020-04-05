@@ -1,7 +1,6 @@
 package it.czerwinski.home.monitoring.model
 
 import java.time.LocalDate
-import java.util.*
 
 /**
  * A repository of [SensorReading]s.
@@ -11,7 +10,7 @@ interface SensorReadingRepository {
     /**
      * Retrieves the latest [SensorReading] of given [type] for a given [location].
      */
-    fun findLatestReading(location: Location, type: SensorType): Optional<SensorReading>
+    fun findLatestReading(location: Location, type: SensorType): SensorReading?
 
     /**
      * Retrieves all [SensorReading]s of given [type] for a given [location],

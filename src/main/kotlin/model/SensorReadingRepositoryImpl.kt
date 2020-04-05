@@ -11,11 +11,11 @@ class SensorReadingRepositoryImpl(
     private val sensorReadingDao: SensorReadingDao
 ) : SensorReadingRepository {
 
-    override fun findLatestReading(location: Location, type: SensorType): Optional<SensorReading> =
+    override fun findLatestReading(location: Location, type: SensorType): SensorReading? =
         sensorReadingDao.findFirst1ByLocationAndTypeOrderByDateTimeDesc(
             location = location,
             type = type
-        )
+        ).orElse(null)
 
     override fun findByDate(location: Location, type: SensorType, date: LocalDate): List<SensorReading> =
         sensorReadingDao.findByLocationAndTypeAndDateTimeBetween(
