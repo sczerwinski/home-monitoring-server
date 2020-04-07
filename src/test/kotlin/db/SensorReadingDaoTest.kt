@@ -6,6 +6,7 @@ import it.czerwinski.home.monitoring.model.SensorReading
 import it.czerwinski.home.monitoring.model.SensorType
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsArray
+import org.hamcrest.core.IsEqual
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -133,6 +134,47 @@ class SensorReadingDaoTest @Autowired constructor(
                 SensorReadingMatchers.isEqual(readings[1]),
                 SensorReadingMatchers.isEqual(readings[2])
             )
+        )
+    }
+
+    @Test
+    fun `When findSensorTypesByLocation, then return sensor types for given location`() {
+        val date = LocalDate.of(2020, 1, 1)
+        val locations = listOf("Kitchen", "Living room")
+            .map { locationName -> Location(name = locationName) }
+            .map { location -> location.copy(id = entityManager.persistAndGetId(location) as Long) }
+        val readings = listOf(
+            SensorReading(
+                location = locations[0],
+                type = SensorType.TEMPERATURE,
+                dateTime = date.atTime(12, 10),
+                value = 20.0
+            ),
+            SensorReading(
+                location = locations[1],
+                type = SensorType.TEMPERATURE,
+                dateTime = date.atTime(12, 11),
+                value = 25.0
+            ),
+            SensorReading(
+                location = locations[1],
+                type = SensorType.HUMIDITY,
+                dateTime = date.atTime(12, 13),
+                value = 50.0
+            )
+        )
+        for (reading in readings) {
+            entityManager.persist(reading)
+        }
+        entityManager.flush()
+
+        val result = sensorReadingDao.findSensorTypesByLocation(
+            location = locations[0]
+        )
+
+        assertThat(
+            result.toList().toTypedArray(),
+            IsArray.array(IsEqual.equalTo(SensorType.TEMPERATURE))
         )
     }
 }

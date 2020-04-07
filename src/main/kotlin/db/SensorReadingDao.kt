@@ -30,4 +30,11 @@ interface SensorReadingDao : CrudRepository<SensorReading, Long> {
         start: LocalDateTime,
         end: LocalDateTime
     ): Iterable<SensorReading>
+
+    /**
+     * Retrieves [SensorType]s for a given [location].
+     */
+    fun findSensorTypesByLocation(
+        location: Location
+    ): Iterable<SensorType>
 }

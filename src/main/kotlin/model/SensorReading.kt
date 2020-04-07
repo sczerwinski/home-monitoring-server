@@ -17,6 +17,10 @@ import javax.persistence.*
         )
     ]
 )
+@NamedQuery(
+    name = "SensorReading.findSensorTypesByLocation",
+    query = "select distinct(r.type) from SensorReading r where r.location = :location"
+)
 data class SensorReading(
 
     /**
