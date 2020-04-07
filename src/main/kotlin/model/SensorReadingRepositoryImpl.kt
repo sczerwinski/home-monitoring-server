@@ -4,7 +4,6 @@ import it.czerwinski.home.monitoring.db.SensorReadingDao
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
 import java.time.Period
-import java.util.*
 
 @Repository
 class SensorReadingRepositoryImpl(
