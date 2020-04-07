@@ -35,3 +35,77 @@ Start the server using command:
 ```shell script
 java -jar home-monitoring-server-[VERSION].jar
 ```
+
+## Running Server On System Boot
+
+To start the server on boot and stop it on shutdown,
+create three files (run `chmod +x` on each script):
+
+### start-server.sh
+
+This script starts the server and saves the logs to a file.
+
+```shell script
+#!/bin/bash
+
+WORKING_DIR="$(dirname "$0")"
+cd $WORKING_DIR
+
+java -jar 'home-monitoring-server-[VERSION].jar' &>> 'home-monitoring-server.log' &
+```
+
+### stop-server.sh
+
+This script stops the server.
+
+Instead of `8081`, use the port your server runs on.
+
+```shell script
+#!/bin/bash
+fuser 8081/tcp -k -TERM || true
+```
+
+### /etc/init.d/home-monitoring-server
+
+This script defines how to start and stop the server.
+
+Use `sudo` when creating/editing/changing access permissions for the script.
+
+```shell script
+#!/bin/sh
+# /etc/init.d/home-monitoring-server
+### BEGIN INIT INFO
+# Provides: home-monitoring-server
+# Required-Start: $local_fs $network
+# Required-Stop: $local_fs $network
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Home Monitoring Server
+# Description: Home Monitoring RESTful Server
+### END INIT INFO
+
+SCRIPTS_PATH=/path/to/scripts
+
+case $1 in
+    start)
+        /bin/bash ${SCRIPTS_PATH}/start-server.sh
+    ;;
+    stop)
+        /bin/bash ${SCRIPTS_PATH}/stop-server.sh  
+    ;;
+    restart)
+        /bin/bash ${SCRIPTS_PATH}/stop-server.sh
+        /bin/bash ${SCRIPTS_PATH}/start-server.sh
+    ;;
+esac
+exit 0
+```
+
+### Init Script Configuration
+
+To run the script automatically on system boot, execute commands:
+
+```shell script
+sudo update-rc.d home-monitoring-server defaults
+sudo update-rc.d home-monitoring-server enable
+```
