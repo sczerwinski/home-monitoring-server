@@ -21,13 +21,3 @@ jobs:
           mkdir -p jacocoSrc/it/czerwinski/home/
           ln -s `pwd`/src/main/kotlin jacocoSrc/it/czerwinski/home/monitoring
           ./gradlew jacocoTestReport
-      - name: Archive JAR artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: libs
-          path: build/libs
-      - name: Archive JaCoCo report
-        uses: actions/upload-artifact@v1
-        with:
-          name: jacoco
-          path: build/reports/jacoco
