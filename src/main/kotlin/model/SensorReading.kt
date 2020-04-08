@@ -1,6 +1,7 @@
 package it.czerwinski.home.monitoring.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -66,6 +67,7 @@ data class SensorReading(
     /**
      * Date and time of the sensor reading.
      */
+    @ApiModelProperty(notes = "Reading date and time (ISO format)")
     @Column(
         name = "date_time",
         nullable = false
@@ -75,6 +77,7 @@ data class SensorReading(
     /**
      * Sensor reading value.
      */
+    @ApiModelProperty(notes = "Reading value")
     @Column(
         name = "value",
         nullable = false

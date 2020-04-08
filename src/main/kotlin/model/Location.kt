@@ -1,5 +1,6 @@
 package it.czerwinski.home.monitoring.model
 
+import io.swagger.annotations.ApiModelProperty
 import javax.persistence.*
 
 /**
@@ -21,6 +22,7 @@ data class Location (
     /**
      * Unique identifier of the location.
      */
+    @ApiModelProperty(notes = "Location ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
@@ -32,6 +34,7 @@ data class Location (
     /**
      * Location name.
      */
+    @ApiModelProperty(notes = "Location name")
     @Column(
         name = "name",
         nullable = false

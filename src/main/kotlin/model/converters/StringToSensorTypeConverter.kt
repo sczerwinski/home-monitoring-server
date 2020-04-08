@@ -14,5 +14,5 @@ class StringToSensorTypeConverter : Converter<String, SensorType> {
     override fun convert(source: String): SensorType? =
         SensorType.values()
             .find { it.name.equals(source, ignoreCase = true) }
-            ?: throw IllegalArgumentException("Unknown sensor type: $source")
+            ?: throw IllegalArgumentException("Invalid sensor type: $source")
 }
