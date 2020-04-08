@@ -28,6 +28,14 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=create
 ```
 
+### Swagger Base URL
+
+If configured URL redirection (e.g. with nginx), it might be useful to change base URL:
+
+```properties
+swagger.api.base-url=[HOSTNAME|IP]/path/to/api
+```
+
 ## Running Server
 
 Start the server using command:
