@@ -121,7 +121,7 @@ class SensorReadingDaoTest @Autowired constructor(
         }
         entityManager.flush()
 
-        val result = sensorReadingDao.findByLocationAndTypeAndDateTimeBetween(
+        val result = sensorReadingDao.findByLocationAndTypeAndDateTimeBetweenOrderByDateTime(
             location = locations[0],
             type = SensorType.TEMPERATURE,
             start = date.atTime(12, 0),

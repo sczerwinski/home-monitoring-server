@@ -86,7 +86,7 @@ class SensorReadingRepositoryImplTest {
             )
         )
         every {
-            sensorReadingDao.findByLocationAndTypeAndDateTimeBetween(
+            sensorReadingDao.findByLocationAndTypeAndDateTimeBetweenOrderByDateTime(
                 location = location,
                 type = SensorType.TEMPERATURE,
                 start = LocalDateTime.of(2020, 1, 1, 0, 0),

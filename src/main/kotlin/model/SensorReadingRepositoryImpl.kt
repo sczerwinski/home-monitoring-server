@@ -20,7 +20,7 @@ class SensorReadingRepositoryImpl(
         ).orElse(null)
 
     override fun findByDate(location: Location, type: SensorType, date: LocalDate): List<SensorReading> =
-        sensorReadingDao.findByLocationAndTypeAndDateTimeBetween(
+        sensorReadingDao.findByLocationAndTypeAndDateTimeBetweenOrderByDateTime(
             location = location,
             type = type,
             start = date.atStartOfDay(),

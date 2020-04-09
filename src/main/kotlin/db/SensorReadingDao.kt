@@ -24,7 +24,7 @@ interface SensorReadingDao : CrudRepository<SensorReading, Long> {
      * Retrieves [SensorReading]s of given [type] for a given [location],
      * recorded between [start] and [end] date and time.
      */
-    fun findByLocationAndTypeAndDateTimeBetween(
+    fun findByLocationAndTypeAndDateTimeBetweenOrderByDateTime(
         location: Location,
         type: SensorType,
         start: LocalDateTime,
