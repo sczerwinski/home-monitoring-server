@@ -59,7 +59,7 @@ This script starts the server and saves the logs to a file.
 WORKING_DIR="$(dirname "$0")"
 cd $WORKING_DIR
 
-java -jar 'home-monitoring-server-[VERSION].jar' &>> 'home-monitoring-server.log' &
+java -jar 'home-monitoring-server-[VERSION].jar' &
 ```
 
 ### stop-server.sh
